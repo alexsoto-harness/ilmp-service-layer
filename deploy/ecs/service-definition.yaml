@@ -1,0 +1,28 @@
+launchType: FARGATE
+serviceName: ilmp-service-layer-<+env.variables.ilmp_env_short>
+desiredCount: 1
+networkConfiguration:
+  awsvpcConfiguration:
+    assignPublicIp: ENABLED
+    securityGroups:
+      - <+env.variables.ilmp_task_sg>
+    subnets:
+      - <+env.variables.ilmp_subnet_a>
+      - <+env.variables.ilmp_subnet_b>
+loadBalancers:
+  - targetGroupArn: <+env.variables.svc_tg_arn>
+    containerName: service-layer
+    containerPort: 8080
+deploymentConfiguration:
+  maximumPercent: 200
+  minimumHealthyPercent: 100
+  deploymentCircuitBreaker:
+    enable: true
+    rollback: false
+healthCheckGracePeriodSeconds: 60
+propagateTags: SERVICE
+tags:
+  - key: customer
+    value: spdji
+  - key: demo
+    value: ilmp
