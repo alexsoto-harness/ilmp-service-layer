@@ -5,7 +5,7 @@ networkMode: awsvpc
 requiresCompatibilities:
   - FARGATE
 cpu: "256"
-memory: "1024"
+memory: "512"
 executionRoleArn: arn:aws:iam::759984737373:role/ilmp-ecs-task-execution
 runtimePlatform:
   cpuArchitecture: X86_64

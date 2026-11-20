@@ -1,3 +1,4 @@
+# Rolling deploys use svc_tg_arn (Dev/QA only for the service layer).
 launchType: FARGATE
 serviceName: ilmp-service-layer-<+env.variables.ilmp_env_short>
 desiredCount: 1
@@ -19,7 +20,7 @@ deploymentConfiguration:
   deploymentCircuitBreaker:
     enable: true
     rollback: false
-healthCheckGracePeriodSeconds: 60
+healthCheckGracePeriodSeconds: 30
 propagateTags: SERVICE
 tags:
   - key: customer
