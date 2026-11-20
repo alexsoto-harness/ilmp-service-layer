@@ -1,0 +1,33 @@
+# Blue/green stages (QADR, Prod). Harness requires the targetGroupArn placeholder
+# and fills it with the blue or green target group at deploy time.
+# Rolling stages use service-definition.yaml.
+# Spring Boot on 0.25 vCPU needs well over 60s to answer /actuator/health, so
+# ECS must ignore ALB health checks until it has had time to start.
+launchType: FARGATE
+serviceName: ilmp-service-layer-<+env.variables.ilmp_env_short>
+desiredCount: 1
+networkConfiguration:
+  awsvpcConfiguration:
+    assignPublicIp: ENABLED
+    securityGroups:
+      - <+env.variables.ilmp_task_sg>
+    subnets:
+      - <+env.variables.ilmp_subnet_a>
+      - <+env.variables.ilmp_subnet_b>
+loadBalancers:
+  - targetGroupArn: <+targetGroupArn>
+    containerName: service-layer
+    containerPort: 8080
+deploymentConfiguration:
+  maximumPercent: 200
+  minimumHealthyPercent: 100
+  deploymentCircuitBreaker:
+    enable: true
+    rollback: false
+healthCheckGracePeriodSeconds: 180
+propagateTags: SERVICE
+tags:
+  - key: customer
+    value: spdji
+  - key: demo
+    value: ilmp

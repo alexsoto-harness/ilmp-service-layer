@@ -1,5 +1,5 @@
-# Rolling stages use svc_tg_arn. Blue/green stages (QADR, Prod) take target
-# groups from the ALB listener rules configured in the deploy step instead.
+# Rolling stages (Dev, QA, UAT) use svc_tg_arn. Blue/green stages (QADR, Prod) use
+# service-definition-bluegreen.yaml, which carries the Harness target group placeholder.
 # Spring Boot on 0.25 vCPU needs well over 60s to answer /actuator/health, so
 # ECS must ignore ALB health checks until it has had time to start.
 launchType: FARGATE
