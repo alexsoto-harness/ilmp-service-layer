@@ -1,4 +1,4 @@
-# ilmp-service-layer
+# ilmp-service-layer.
 
 Java 21 / Spring Boot 3 service layer for the ILMP Index Studio demo (Harness for S&P DJI). It runs on ECS Fargate behind `ilmp-demo-alb` in Dev and QA.
 
