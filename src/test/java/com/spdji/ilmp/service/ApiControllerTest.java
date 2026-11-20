@@ -59,13 +59,15 @@ class ApiControllerTest {
 
     @Test
     void digestParsedFromImageReference() {
-        String[] parsed = VersionInfo.parseMetadata("{\"Image\":\"repo/service-layer@sha256:abc\",\"ImageID\":\"sha256:other\"}");
+        String[] parsed = VersionInfo.parseMetadata("{\"Image\":\"repo/service-layer@sha256:abc\",\"ImageID\":\"sha256:other\"}",
+                "{\"Family\":\"ilmp-service-layer-dev\",\"Revision\":\"4\"}");
         assertThat(parsed[1]).isEqualTo("sha256:abc");
+        assertThat(parsed[2]).isEqualTo("ilmp-service-layer-dev:4");
     }
 
     @Test
     void digestFallsBackToImageId() {
-        String[] parsed = VersionInfo.parseMetadata("{\"Image\":\"repo/service-layer:tag\",\"ImageID\":\"sha256:def\"}");
+        String[] parsed = VersionInfo.parseMetadata("{\"Image\":\"repo/service-layer:tag\",\"ImageID\":\"sha256:def\"}", "{}");
         assertThat(parsed[1]).isEqualTo("sha256:def");
     }
 }
