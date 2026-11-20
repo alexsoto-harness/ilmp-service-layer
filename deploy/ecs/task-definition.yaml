@@ -1,11 +1,12 @@
 # Owned by Harness CD (service ilmp_service_layer). A routine release changes only
 # containerDefinitions[0].image; ilmp_taskdef_guard denies any other drift.
+# 512 CPU units (0.5 vCPU) needs at least 1024 MB on Fargate.
 family: ilmp-service-layer-<+env.variables.ilmp_env_short>
 networkMode: awsvpc
 requiresCompatibilities:
   - FARGATE
-cpu: "256"
-memory: "512"
+cpu: "512"
+memory: "1024"
 executionRoleArn: arn:aws:iam::759984737373:role/ilmp-ecs-task-execution
 runtimePlatform:
   cpuArchitecture: X86_64
