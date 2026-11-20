@@ -1,4 +1,7 @@
-# Rolling deploys use svc_tg_arn (Dev/QA only for the service layer).
+# Rolling stages use svc_tg_arn. Blue/green stages (QADR, Prod) take target
+# groups from the ALB listener rules configured in the deploy step instead.
+# Spring Boot on 0.25 vCPU needs well over 60s to answer /actuator/health, so
+# ECS must ignore ALB health checks until it has had time to start.
 launchType: FARGATE
 serviceName: ilmp-service-layer-<+env.variables.ilmp_env_short>
 desiredCount: 1
@@ -20,7 +23,7 @@ deploymentConfiguration:
   deploymentCircuitBreaker:
     enable: true
     rollback: false
-healthCheckGracePeriodSeconds: 30
+healthCheckGracePeriodSeconds: 180
 propagateTags: SERVICE
 tags:
   - key: customer
